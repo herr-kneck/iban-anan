@@ -5,7 +5,7 @@ a = Analysis(
     ['iban-anan.py'],
     pathex=[],
     binaries=[],
-    datas=[('blz.csv', '.')],
+    datas=[('blz-aktuell-csv-data.csv', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

@@ -29,12 +29,24 @@ APP_HEIGHT = 260
 blz_bic_map = {}
 
 
-def load_bundesbank_data(csv_path="blz.csv"):
+def get_app_base_dir() -> str:
+    # PyInstaller extracts bundled files into _MEIPASS at runtime.
+    if getattr(sys, "frozen", False):
+        return getattr(sys, "_MEIPASS", os.path.dirname(sys.executable))
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+def resolve_resource_path(filename: str) -> str:
+    return os.path.join(get_app_base_dir(), filename)
+
+
+def load_bundesbank_data(csv_filename="blz.csv"):
     """
     Liest die Bankleitzahlen-Datei der Bundesbank ein und baut ein Mapping BLZ -> BIC.
     Erwartet CSV mit Spalten: Bankleitzahl;BIC;...
     """
     global blz_bic_map
+    csv_path = resolve_resource_path(csv_filename)
     if not os.path.exists(csv_path):
         print(f"Hinweis: Bundesbank-Datei {csv_path} nicht gefunden. BIC-Suche deaktiviert.")
         return
